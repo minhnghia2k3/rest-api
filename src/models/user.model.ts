@@ -23,11 +23,11 @@ userSchema.pre('save', function (next) {
 })
 
 // Instance method
-userSchema.methods.comparePassword = function (candidatePassword: string) {
-    return bcrypt.compareSync(candidatePassword, this.password)
+userSchema.methods.comparePassword = async function (candidatePassword: string) {
+    return await bcrypt.compare(candidatePassword, this.password)
 }
 
 // User model
-const UserModel = mongoose.model('User', userSchema)
+const UserModel = mongoose.model<UserDocument>('User', userSchema)
 
 export default UserModel;

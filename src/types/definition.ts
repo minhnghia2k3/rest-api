@@ -1,4 +1,4 @@
-import { Document } from "mongoose";
+import { Document, ObjectId } from "mongoose";
 
 export interface UserInput {
     email: string;
@@ -9,6 +9,14 @@ export interface UserInput {
 export interface UserDocument extends UserInput, Document {
     createdAt: Date;
     updatedAt: Date;
-    comparePassword(candidatePassword: string): boolean;
+    comparePassword(candidatePassword: string): Promise<boolean>;
+}
+
+export interface SessionDocument extends Document {
+    user: UserDocument['_id'],
+    valid: boolean;
+    userAgent: string;
+    createdAt: Date;
+    updatedAt: Date;
 }
 
