@@ -7,7 +7,7 @@ import { omit } from 'lodash';
 export const createUserHandler = async (req: Request<{}, {}, CreateUserInput['body']>, res: Response) => {
     try {
         const user = await createUser(req.body);
-        return res.status(201).json({ status: 'success', data: omit(user.toJSON(), 'password') })
+        return res.status(201).json({ status: 'success', data: omit(user, 'password') })
     } catch (error: any) {
         logger.error(error)
         // might be a duplicate email
