@@ -1,12 +1,30 @@
 import { } from 'mongoose';
 import UserModel from '../models/user.model';
 import { UserInput } from '../types/definition';
-
-export async function createUser(input: UserInput) {
+import _ from 'lodash';
+export const createUser = async (input: UserInput) => {
     try {
-        return UserModel.create(input)
+        const user = await UserModel.create(input)
+        return _.omit(user.toJSON(), 'password')
     } catch (error: any) {
-        // throw error to the next middleware.
         throw new Error(error)
     }
+}
+
+export const validatePassword = async (
+    { email,
+        password
+    }: {
+        email: string,
+        password: string
+    }) => {
+    const user = await UserModel.findOne({ email })
+
+    if (!user) return false
+
+    const isValid = await user.comparePassword(password)
+
+    if (!isValid) return false
+
+    return _.omit(user.toJSON(), 'password')
 }
