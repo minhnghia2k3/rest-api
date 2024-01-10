@@ -1,6 +1,6 @@
-import { } from 'mongoose';
+import { FilterQuery } from 'mongoose';
 import UserModel from '../models/user.model';
-import { UserInput } from '../types/definition';
+import { UserDocument, UserInput } from '../types/definition';
 import _ from 'lodash';
 export const createUser = async (input: UserInput) => {
     try {
@@ -27,4 +27,8 @@ export const validatePassword = async (
     if (!isValid) return false
 
     return _.omit(user.toJSON(), 'password')
+}
+
+export const findUser = async (userId: string) => {
+    return UserModel.findById(userId).lean();
 }

@@ -1,8 +1,9 @@
 import { Request, Response } from 'express'
 import { validatePassword } from '../service/user.service'
-import { createSession } from '../service/session.service'
+import { createSession, findSessions, updateSession } from '../service/session.service'
 import { signJwt } from '../utils/jwt.utils'
 import config from 'config'
+
 export const createUserSessionHandler = async (req: Request, res: Response) => {
     try {
         // Validate user password
@@ -42,4 +43,39 @@ export const createUserSessionHandler = async (req: Request, res: Response) => {
             message: error.message
         })
     }
+}
+
+export const getUserSessionHandler = async (req: Request, res: Response) => {
+    const userId = res.locals.user._id
+
+    // query userId and valid session
+    const session = await findSessions({ user: userId, valid: true })
+
+    return res.status(200).json({
+        success: true,
+        session
+    })
+}
+
+export const deleteUserSessionHandler = async (req: Request, res: Response) => {
+    try {
+        const sessionId = res.locals.user.session
+
+        // if valid = false => findSessions will not response => token not save to header
+        await updateSession({ _id: sessionId }, { valid: false })
+
+        return res.status(200).json({
+            success: true,
+            data: {
+                accessToken: null,
+                refreshToken: null
+            },
+        })
+    } catch (error: any) {
+        return res.status(500).json({
+            success: false,
+            message: error.message
+        })
+    }
+
 }
