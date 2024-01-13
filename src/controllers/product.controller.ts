@@ -68,12 +68,9 @@ export const updateProductHandler = async (
 }
 export const getProductHandler = async (req: Request<GetProductInput['params']>, res: Response) => {
     try {
-        const userId = res.locals.user._id
         const productId = req.params.productId
-        console.log(userId, productId)
         const product = await findProduct({
             productId,
-            user: userId
         })
         if (!product) {
             return res.status(404).json({
