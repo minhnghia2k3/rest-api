@@ -15,7 +15,7 @@ export const createProductHandler = async (
             ...body, user: userId
         })
 
-        return res.status(200).json({
+        return res.status(201).json({
             success: true,
             data: product
         })
