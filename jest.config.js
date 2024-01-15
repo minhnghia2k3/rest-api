@@ -10,5 +10,7 @@ module.exports = {
   // Force exit after all tests have completed.
   forceExit: true,
   // Automatically clear mock calls, instances, contexts, and result before every test.
-  // clearMocks: true,
+  clearMocks: true,
+  resetMocks: true,
+  restoreMocks: true,
 };
