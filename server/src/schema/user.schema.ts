@@ -10,7 +10,9 @@ export const createUserSchema = z.object({
         name: z.string({
             required_error: 'Name is required.'
         }),
-        password: z.string().min(6, 'Password is too short - should be 6 chars minimum.'),
+        password: z.string({
+            required_error: 'Password is required.'
+        }).min(6, 'Password is too short - should be 6 chars minimum.'),
         passwordConfirmation: z.string({
             required_error: 'Confirm password is required.'
         })
