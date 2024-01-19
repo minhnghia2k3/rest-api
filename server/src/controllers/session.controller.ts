@@ -34,6 +34,22 @@ export const createUserSessionHandler = async (req: Request, res: Response) => {
         })
 
         // Return access & refresh token
+        res.cookie('accessToken', accessToken, {
+            domain: 'localhost', // change in production
+            httpOnly: true, // only http can access
+            maxAge: 900000, // 15 minutes
+            path: '/',
+            secure: false // change in production,
+        })
+
+        res.cookie('refreshToken', refreshToken, {
+            domain: 'localhost', // change in production
+            httpOnly: true, // only http can access
+            maxAge: 3.1536E+10, // 1 year
+            path: '/',
+            secure: false // change in production
+        })
+
         return res.status(200).json({
             success: true,
             data: { accessToken, refreshToken }
