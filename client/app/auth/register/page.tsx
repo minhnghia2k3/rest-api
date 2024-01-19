@@ -3,8 +3,14 @@ import React from 'react'
 import { useForm } from 'react-hook-form';
 import { z } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
+import { useState } from 'react';
+import { useRouter } from 'next/navigation'
+
 const RegisterForm = () => {
-    //TODO: Call api to register user
+    const [error, setError] = useState('')
+    const router = useRouter();
+    const HOST = process.env.NEXT_PUBLIC_SERVER || ''
+
     const createUserSchema: z.ZodSchema<Record<string, string>> = z.object({
         email: z.string({
             required_error: 'Email is required.'
@@ -28,12 +34,24 @@ const RegisterForm = () => {
     } = useForm({
         resolver: zodResolver(createUserSchema)
     });
-    const onSubmit = (data: typeCreateUserInfer) => {
-        console.log({ data })
+    const onSubmit = async (data: typeCreateUserInfer) => {
+        try {
+            const user = await fetch(`${HOST}/api/users`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            })
+            router.push('/')
+        } catch (error: any) {
+            setError(error.message)
+        }
     }
 
     return (
         <>
+            <p>{error}</p>
             <form onSubmit={handleSubmit((data) => onSubmit(data))}>
                 <div className='form-element'>
                     <label htmlFor="email">Email</label>
