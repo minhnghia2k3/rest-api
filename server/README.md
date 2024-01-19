@@ -25,10 +25,10 @@ Note 2: When you clone this repository, copy the .env.example file to .env and f
 - Zod validation
 
 # Dataflow
-![Dataflow](/diagrams/dataflow.png)
+![Dataflow](./diagrams/dataflow.png)
 
 # Access & refresh token flow
-![Token flow](/diagrams/JWT.png)
+![Token flow](./diagrams/JWT.png)
 
 # Deployment
 - Docker (image)
