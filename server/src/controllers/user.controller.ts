@@ -13,4 +13,15 @@ export const createUserHandler = async (req: Request<{}, {}, CreateUserInput['bo
         // might be a duplicate email
         return res.status(409).json({ success: false, message: error.message })
     }
+
+}
+
+export const getCurrentUser = async (req: Request, res: Response) => {
+    try {
+        const user = res.locals.user
+        return res.status(200).json({ success: true, data: user })
+    } catch (error: any) {
+        logger.error(error)
+        return res.status(409).json({ success: false, message: error.message })
+    }
 }

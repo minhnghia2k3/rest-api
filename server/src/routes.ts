@@ -7,7 +7,7 @@ import { createUserSchema } from './schema/user.schema';
 import { createSessionSchema } from './schema/session.schema';
 import { createProductSchema, deleteProductSchema, getProductSchema, updateProductSchema } from './schema/product.schema';
 /* Controller */
-import { createUserHandler } from './controllers/user.controller';
+import { createUserHandler, getCurrentUser } from './controllers/user.controller';
 import { createUserSessionHandler, deleteUserSessionHandler, getUserSessionHandler } from './controllers/session.controller';
 
 import { createProductHandler, deleteProductHandler, getProductHandler, updateProductHandler } from './controllers/product.controller';
@@ -18,6 +18,7 @@ function routes(app: Express) {
     })
 
     /* User & session */
+    app.get('/api/me', requireUser, getCurrentUser)
     app.post('/api/users', validateResource(createUserSchema), createUserHandler)
     app.post('/api/sessions', validateResource(createSessionSchema), createUserSessionHandler)
     app.get('/api/sessions', requireUser, getUserSessionHandler)

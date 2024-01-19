@@ -1,5 +1,6 @@
 export default {
-    port: 1337,
+    port: 1338,
+    client_url: "http://localhost:3000",
     dbURI: "mongodb://localhost:27017/rest-api-tutorial",
     saltWorkFactor: 10,
     // Send out to public -> Validate jwt signature.
